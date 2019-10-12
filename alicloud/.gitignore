@@ -1,0 +1,12 @@
+.terraform/
+gloabl/variables/dns/*
+*.tfstate*
+*.log
+*.pem
+.DS_Store
+.idea
+*.backup
+*.bak
+*-bak
+*.txt
+
