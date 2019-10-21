@@ -1,0 +1,6 @@
+rule_directions=["ingress", "ingress"]
+ip_protocols=["tcp", "tcp"]
+policies=["accept", "accept"]
+port_ranges=["80/80", "22/22"]
+priorities=[1, 2, 3]
+cidr_ips=["192.168.3.2/32", "127.0.0.1/32"]

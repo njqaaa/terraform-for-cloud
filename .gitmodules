@@ -1,0 +1,18 @@
+[submodule "alicloud/modules/dns"]
+	path = alicloud/modules/dns
+	url = https://github.com/njqaaa/terraform-alicloud-dns.git
+[submodule "alicloud/modules/vpc"]
+	path = alicloud/modules/vpc
+	url = https://github.com/njqaaa/terraform-alicloud-vpc.git
+[submodule "alicloud/modules/slb"]
+	path = alicloud/modules/slb
+	url = https://github.com/njqaaa/terraform-alicloud-slb.git
+[submodule "alicloud/modules/ram"]
+	path = alicloud/modules/ram
+	url = https://github.com/terraform-alicloud-modules/terraform-alicloud-ram.git
+[submodule "alicloud/modules/security-group"]
+	path = alicloud/modules/security-group
+	url = https://github.com/terraform-alicloud-modules/terraform-alicloud-security-group.git
+[submodule "alicloud/modules/oss-object"]
+	path = alicloud/modules/oss-object
+	url = https://github.com/terraform-alicloud-modules/terraform-alicloud-oss-object.git

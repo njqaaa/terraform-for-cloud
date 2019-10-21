@@ -1,0 +1,32 @@
+#!/bin/bash
+basepath=$(cd $(dirname $0); pwd)
+source ${basepath}/../common.sh
+cd ${basepath}
+cd ../../${GLOABL_PATH}
+domain=$1
+if [[ -z ${domain} ]];then
+    echo 'please input domain'
+    exit 1
+fi
+domain_replace=$(echo ${domain}|sed 's/\./_/g')
+terraform import module.dns-${domain_replace}.module.domain.alicloud_dns.this[0] ${domain}
+
+echo "record_list=[" > ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+i=0
+lists=$(aliyun alidns DescribeDomainRecords  --DomainName=${domain} | jq -r '.DomainRecords.Record' |jq .[].RecordId | sed 's/"//g')
+for list in $lists
+do
+    terraform import module.dns-${domain_replace}.module.records.alicloud_dns_record.this[${i}] ${list}
+    terraform state show -no-color module.dns-${domain_replace}.module.records.alicloud_dns_record.this[${i}] >> ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+    i=$(($i+1))
+done
+#terraform show -no-color |grep -A12 module.dns-${domain_replace}.module.records.alicloud_dns_record.this >> ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+#sed -i '/--/d' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i '/#/d' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i '/id          =/d' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i '/locked      =/d' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i '/name        =/d' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i '/status      =/d' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i 's/}/},/g' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i 's/.*{/{/g' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
+sed -i '$a]' ${VARIABLES_PATH}/dns/${domain_replace}.tfvars
